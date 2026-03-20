@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>音ボタン</title>
+<meta charset="UTF-8">
+<title>音ボタン</title>
 </head>
-<body>
 
-<button onclick="document.getElementById('audio').play()">
-  音を鳴らす
+<body style="text-align:center; background:#fff0f5; padding:50px;">
+
+<h2>🎵 おみせボタン 🎵</h2>
+
+<button onclick="document.getElementById('a').play()" style="font-size:20px; padding:20px; margin:10px;">
+  🔔 呼び出し
 </button>
 
-<audio id="audio" src="sound.mp3"></audio>
+<button onclick="document.getElementById('b').play()" style="font-size:20px; padding:20px; margin:10px;">
+  🍓 焼き上がり
+</button>
+
+<audio id="a" src="sound1.mp3"></audio>
+<audio id="b" src="sound2.mp3"></audio>
 
 </body>
 </html>
