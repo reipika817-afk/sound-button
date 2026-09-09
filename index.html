@@ -1,105 +1,128 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Rei Sound Box</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rei Sound Box</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-body {
-  text-align: center;
-  background: #f3e8ff;
-  font-family: Arial, sans-serif;
-  padding: 40px;
-  overflow: hidden;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #171126, #30204d, #15101f);
+      color: #fff;
+      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+    }
 
-h1 {
-  color: #a855f7;
-  margin-bottom: 30px;
-}
+    .box {
+      width: min(520px, 100%);
+      padding: 28px 22px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 24px;
+      background: rgba(20, 14, 32, .82);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      text-align: center;
+    }
 
-/* ボタン */
-button {
-  display: block;
-  width: 260px;
-  margin: 12px auto;
-  padding: 18px;
-  font-size: 18px;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #c084fc, #f0abfc);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  transition: 0.2s;
-}
+    h1 {
+      margin: 0 0 24px;
+      font-size: clamp(28px, 7vw, 42px);
+      letter-spacing: .08em;
+    }
 
-button:active {
-  transform: scale(0.95);
-}
+    .buttons {
+      display: grid;
+      gap: 12px;
+    }
 
-/* ✨キラキラ✨ */
-.sparkle {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: fall linear infinite;
-}
+    button {
+      width: 100%;
+      padding: 16px 18px;
+      border: 0;
+      border-radius: 14px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: .05em;
+      cursor: pointer;
+      transition: transform .12s, background .12s, box-shadow .12s;
+    }
 
-@keyframes fall {
-  0% {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-}
-</style>
+    button:hover {
+      background: rgba(255,255,255,.20);
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+
+    button:active {
+      transform: scale(.97);
+    }
+
+    #reishu.changed {
+      background: rgba(255, 180, 220, .22);
+    }
+
+    .count {
+      margin-top: 18px;
+      min-height: 1.2em;
+      font-size: 12px;
+      opacity: .45;
+    }
+  </style>
 </head>
 
 <body>
+  <main class="box">
+    <h1>Rei Sound Box</h1>
 
-<h1>🎶Rei Sound Box🎶</h1>
+    <div class="buttons">
+      <button id="reishu" onclick="playReishu()">冷酒で乾杯</button>
+      <button onclick="playSound('sandoriyon.wav')">サンドリヨン</button>
+      <button onclick="playSound('tasukaran.wav')">枠外たすからん</button>
+      <button onclick="playSound('reikyokon.wav')">れい教魂！</button>
+      <button onclick="playSound('matsuaki.wav')">まつあきの歌</button>
+      <button onclick="playSound('hamaguri.wav')">ハマグリROCK</button>
+      <button onclick="playSound('kawanonakani.wav')">川の中に…</button>
+    </div>
 
-<button onclick="play('a')">サンドリヨン</button>
-<button onclick="play('b')">はまぐり</button>
-<button onclick="play('c')">喝だ！</button>
-<button onclick="play('d')">ミサトさん</button>
-<button onclick="play('e')">枠外たすからん</button>
-<button onclick="play('f')">まつあきの歌</button>
+    <div class="count" id="count"></div>
+  </main>
 
-<audio id="a" src="sound1.wav"></audio>
-<audio id="b" src="sound2.wav"></audio>
-<audio id="c" src="sound3.wav"></audio>
-<audio id="d" src="sound4.wav"></audio>
-<audio id="e" src="sound5.wav"></audio>
-<audio id="f" src="sound6.wav"></audio>
+  <script>
+    let reishuCount = 0;
+    let reishuChanged = false;
 
-<script>
-function play(id) {
-  const audio = document.getElementById(id);
-  audio.currentTime = 0;
-  audio.play();
-}
+    function playSound(file) {
+      const audio = new Audio(file);
+      audio.play().catch(() => {
+        alert('音声ファイルを確認してください：' + file);
+      });
+    }
 
-/* キラキラ生成 */
-for (let i = 0; i < 30; i++) {
-  let s = document.createElement("div");
-  s.className = "sparkle";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.animationDuration = (3 + Math.random() * 5) + "s";
-  s.style.width = s.style.height = (5 + Math.random() * 8) + "px";
-  document.body.appendChild(s);
-}
-</script>
+    function playReishu() {
+      reishuCount++;
 
+      if (reishuCount >= 5) {
+        reishuChanged = true;
+      }
+
+      if (reishuChanged) {
+        const button = document.getElementById('reishu');
+        button.textContent = 'お前のいいね！冷酒で乾杯！';
+        button.classList.add('changed');
+        playSound('reishu_after5.wav');
+      } else {
+        playSound('reishu.wav');
+      }
+
+      // 5回目以降のカウント表示はしません
+      document.getElementById('count').textContent = '';
+    }
+  </script>
 </body>
 </html>
